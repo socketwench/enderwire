@@ -2,22 +2,24 @@ include <../BOSL2/std.scad>
 include <../BOSL2/screws.scad>
 
 function ender3Bed_mountPoints() = [
-    [0,2],
-    [8,0],
-    [20,20],
-    [50,20],
-    [62,0],
-    [70,2],
+    [0-15,2],
+    [8-15,0],
+    [20,19],
+    [50,19],
+    [62-15,0],
+    [69,0],
+    [70,1],
+    [70,10],
     [66,27.5],
     [3.5,27.5],
 ];
 
 module ender3Bed_holePattern() {
-    translate([5,5,0]) {
+    translate([-10,5,0]) {
         children();
     }
     
-    translate([65,5,0]) {
+    translate([50,5,0]) {
         children();
     }
 }
@@ -65,8 +67,8 @@ module ender3AdxlMount_pcbBaseOutline() {
         ender3AdxlMount_holePattern()
             circle(d=3, $fn=15);
         
-        translate([25, -3])
-            trapezoid(h=3, w1=20, w2=10, anchor=LEFT+FRONT);
+        translate([22, -3])
+            trapezoid(h=3, w1=15, w2=10, anchor=LEFT+FRONT);
     }
 }
 
@@ -80,7 +82,7 @@ module ender3AdxlMount_nutTrap() {
 
 module ender3AdxlMount_zipTieAnchor() {    
     rotate([0,90,0])
-        tube(h=2, od=10, wall=1, anchor=FRONT, $fn=20);
+        tube(h=2.4, od=10, wall=1.4, anchor=FRONT, $fn=20);
 }
 
 module ender3AdxlMount_pcbBase() {
@@ -100,29 +102,30 @@ module ender3AdxlMount_pcbBase() {
             ender3AdxlMount_holeBoss();
 
     translate([20.4,7.6,4]) {
-        cylinder(h=6, d=5.6, $fn=15);
+        cylinder(h=6, d=6, $fn=15);
         cylinder(h=2, d=8, $fn=15);
     }
 }
-
-
-
 
 difference() {
     union() {
         translate([0,0,4]) ender3Bed_mount();
         
         translate([3.5,27.5,0])
-            cube([59.5+3, 3, 10]);
+            cube([59.5+3, 4, 10]);
 
-        translate([63,43.5+3,0])
+        translate([63,43.5+4,0])
             rotate([0,0,180])
                 ender3AdxlMount_pcbBase();
     }
 
-    translate([10,19.6,9.6])
+    translate([11,20.4,9.6])
         ender3AdxlMount_zipTieAnchor();
 
-    translate([60,19.6,9.6])
+    translate([46,20.4,9.6])
         ender3AdxlMount_zipTieAnchor();
+
+    translate([67,5,9.6])
+        rotate([0,0,90])
+            ender3AdxlMount_zipTieAnchor();
 }
