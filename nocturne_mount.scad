@@ -69,14 +69,20 @@ function enderWireNocturneMnt_boomShape() = [
 
 module enderWireNocturneMnt_boomBase() {
     cuboid([25,20,5], anchor=BOTTOM, chamfer=2,
-    edges=[BACK+LEFT, BACK+RIGHT]) children();
+    edges=[BACK+LEFT, BACK+RIGHT, FRONT+LEFT, FRONT+RIGHT]) children();
 }
 
 module enderWireNocturneMnt_boomArm() {
     diff()
         hex_panel(enderWireNocturneMnt_boomShape(), strut=2, spacing=9, h = 25, frame = 3, anchor=LEFT, orient=LEFT, shift=[0,0.8]) {
-            edge_mask([BOTTOM+BACK,TOP+BACK] )
+            edge_mask([BOTTOM+BACK,TOP+BACK])
                 chamfer_edge_mask(l=145, chamfer=2);
+            edge_mask([TOP+FRONT])
+                rotate([0,-7.688,0])
+                    chamfer_edge_mask(l=224, chamfer=2);
+            edge_mask([BOTTOM+FRONT])
+                rotate([0,7.688,0])
+                    chamfer_edge_mask(l=224, chamfer=2);
         }
 }
 
